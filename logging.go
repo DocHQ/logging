@@ -70,15 +70,8 @@ func init() {
 	}
 }
 
-func InitSentry() error {
-	if SentryDSN != "" {
-		return sentry.Init(sentry.ClientOptions{
-			Dsn:         SentryDSN,
-			Environment: os.Getenv("GITLAB_ENVIRONMENT_NAME"),
-		})
-	}
-
-	return nil
+func InitSentry(client sentry.ClientOptions) error {
+	return sentry.Init(client)
 }
 
 func sendLog(i interface{}, l Level) {
