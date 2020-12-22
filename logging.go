@@ -48,10 +48,6 @@ const (
 
 type Level uint32
 
-type ClientOptions struct {
-	*sentry.ClientOptions
-}
-
 func init() {
 	var outString string = "0"
 
@@ -74,8 +70,8 @@ func init() {
 	}
 }
 
-func InitSentry(client ClientOptions) error {
-	return sentry.Init(*client.ClientOptions)
+func InitSentry(client sentry.ClientOptions) error {
+	return sentry.Init(client)
 }
 
 func sendLog(i interface{}, l Level) {
