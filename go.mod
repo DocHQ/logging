@@ -1,4 +1,4 @@
-module git.dochq.co.uk/packages/logging
+module github.com/DocHQ/logging
 
 go 1.13
 
