@@ -40,8 +40,12 @@ type LoggerInterface interface {
 }
 
 func LogRunner(i interface{}, m map[string]interface{}, u uint32, b bool) {
-	for _, v := range Logger {
-		v.Log(i, m, u, b)
+	if len(Logger) == 1 {
+		Logger[0].Log(i, m, u, b)
+	} else {
+		for _, v := range Logger {
+			v.Log(i, m, u, b)
+		}
 	}
 }
 
