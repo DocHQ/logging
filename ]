@@ -1,0 +1,17 @@
+package sentry
+
+import (
+	"github.com/getsentry/sentry-go"
+)
+
+var (
+	DSN string = ""
+)
+
+type Logger struct{}
+
+func (t Logger) Log(i interface{}, fields map[string]interface{}, level uint32, verbose bool) {
+	sentry.ConfigureScope(func(scope *sentry.Scope) {
+	}
+				sentry.CaptureMessage(fmt.Sprintf("%s", i))
+}
