@@ -7,10 +7,6 @@ import (
 	"github.com/getsentry/sentry-go"
 )
 
-var (
-	Config = sentry.ClientOptions{}
-)
-
 var levelToSentryLevel = map[uint32]sentry.Level{
 	0: sentry.LevelDebug,
 	1: sentry.LevelInfo,
@@ -19,14 +15,23 @@ var levelToSentryLevel = map[uint32]sentry.Level{
 	4: sentry.LevelFatal,
 }
 
-// This is not a usual init as the user may need to change options before hand
-func InitSentry() error {
-	// Set this up so you dont need to call flush() each log
-	sentrySyncTransport := sentry.NewHTTPSyncTransport()
-	sentrySyncTransport.Timeout = time.Second * 3
-	Config.Transport = sentrySyncTransport
+// Passthrough type for https://pkg.go.dev/github.com/getsentry/sentry-go#ClientOptions
+type ConfigOptions sentry.ClientOptions
 
-	return sentry.Init(Config)
+// This is not a usual init as the user may need to change options before hand
+func InitSentry(config *ConfigOptions) error {
+	sentryOptions := sentry.ClientOptions(*config)
+	return sentry.Init(sentryOptions)
+}
+
+func NewConfig() *sentry.ClientOptions {
+	config := &sentry.ClientOptions{}
+
+	return config
+}
+
+func Flush(t time.Duration) {
+	sentry.Flush(t)
 }
 
 type Logger struct{}
