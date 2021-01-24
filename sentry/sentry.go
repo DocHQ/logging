@@ -18,7 +18,6 @@ var levelToSentryLevel = map[uint32]sentry.Level{
 // Passthrough type for https://pkg.go.dev/github.com/getsentry/sentry-go#ClientOptions
 type ConfigOptions struct {
 	sentry.ClientOptions
-	IgnoreLevelBelow uint32
 }
 
 // This is not a usual init as the user may need to change options before hand
@@ -36,7 +35,9 @@ func Flush(t time.Duration) {
 	sentry.Flush(t)
 }
 
-type Logger struct{}
+type Logger struct {
+	IgnoreLevelBelow uint32
+}
 
 func (t Logger) Log(i interface{}, fields map[string]interface{}, level uint32, verbose bool) {
 	localHub := sentry.CurrentHub().Clone()
@@ -51,7 +52,7 @@ func (t Logger) Log(i interface{}, fields map[string]interface{}, level uint32, 
 		scope.SetLevel(levelToSentryLevel[level])
 	})
 
-	if level == 0 {
+	if level <= t.IgnoreLevelBelow {
 		return // Don't log debug messages
 	}
 
