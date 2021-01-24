@@ -88,7 +88,7 @@ func (t Logger) Log(i interface{}, fields map[string]interface{}, level uint32, 
 	// Check the current debug status
 	if verbose {
 		// Get the runtime caller
-		pc, _, line, _ := runtime.Caller(2)
+		pc, _, line, _ := runtime.Caller(3)
 		details := runtime.FuncForPC(pc)
 
 		if level <= 2 {
