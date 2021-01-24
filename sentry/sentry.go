@@ -16,12 +16,14 @@ var levelToSentryLevel = map[uint32]sentry.Level{
 }
 
 // Passthrough type for https://pkg.go.dev/github.com/getsentry/sentry-go#ClientOptions
-type ConfigOptions sentry.ClientOptions
+type ConfigOptions struct {
+	sentry.ClientOptions
+	IgnoreLevelBelow uint32
+}
 
 // This is not a usual init as the user may need to change options before hand
 func InitSentry(config *ConfigOptions) error {
-	sentryOptions := sentry.ClientOptions(*config)
-	return sentry.Init(sentryOptions)
+	return sentry.Init(config.ClientOptions)
 }
 
 func NewConfig() *sentry.ClientOptions {
