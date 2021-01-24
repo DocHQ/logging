@@ -92,15 +92,15 @@ func (t Logger) Log(i interface{}, fields map[string]interface{}, level uint32, 
 		details := runtime.FuncForPC(pc)
 
 		if level <= 2 {
-			outLog.Printf("%s[%s] [%s#%d] %s \n", timestring, levelToName(level), details.Name(), line, i)
+			outLog.Printf("%s [%s] [%s#%d] %s\n", timestring, levelToName(level), details.Name(), line, i)
 		} else {
-			errLog.Printf("%s[%s] [%s#%d] %s \n", timestring, levelToName(level), details.Name(), line, i)
+			errLog.Printf("%s [%s] [%s#%d] %s\n", timestring, levelToName(level), details.Name(), line, i)
 		}
 	} else {
 		if level <= 2 {
-			outLog.Printf("%s[%s] %s \n", timestring, levelToName(level), i)
+			outLog.Printf("[%s] %s\n", levelToName(level), i)
 		} else {
-			errLog.Printf("%s[%s] %s \n", timestring, levelToName(level), i)
+			errLog.Printf("[%s] %s\n", levelToName(level), i)
 		}
 	}
 
