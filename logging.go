@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	Verbose bool            = false
-	Logger  LoggerInterface = &console.Logger{}
+	Verbose bool              = false
+	Logger  []LoggerInterface = []LoggerInterface{&console.Logger{}}
 )
 
 type Level uint32
@@ -39,35 +39,41 @@ type LoggerInterface interface {
 	Log(interface{}, map[string]interface{}, uint32, bool)
 }
 
+func LogRunner(i interface{}, m map[string]interface{}, u uint32, b bool) {
+	for _, v := range Logger {
+		v.Log(i, m, u, b)
+	}
+}
+
 // The useual defines
 func Error(err interface{}) {
-	Logger.Log(err, make(map[string]interface{}, 0), ERROR, Verbose)
+	LogRunner(err, make(map[string]interface{}, 0), ERROR, Verbose)
 }
 func Debug(debug interface{}) {
-	Logger.Log(debug, make(map[string]interface{}, 0), DEBUG, Verbose)
+	LogRunner(debug, make(map[string]interface{}, 0), DEBUG, Verbose)
 }
 func Info(info interface{}) {
-	Logger.Log(info, make(map[string]interface{}, 0), INFO, Verbose)
+	LogRunner(info, make(map[string]interface{}, 0), INFO, Verbose)
 }
 func Warn(warn interface{}) {
-	Logger.Log(warn, make(map[string]interface{}, 0), WARN, Verbose)
+	LogRunner(warn, make(map[string]interface{}, 0), WARN, Verbose)
 }
 func Fatal(fatal interface{}) {
-	Logger.Log(fatal, make(map[string]interface{}, 0), FATAL, Verbose)
+	LogRunner(fatal, make(map[string]interface{}, 0), FATAL, Verbose)
 }
 
 func Errorf(form string, vars ...interface{}) {
-	Logger.Log(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), ERROR, Verbose)
+	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), ERROR, Verbose)
 }
 func Debugf(form string, vars ...interface{}) {
-	Logger.Log(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), DEBUG, Verbose)
+	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), DEBUG, Verbose)
 }
 func Infof(form string, vars ...interface{}) {
-	Logger.Log(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), INFO, Verbose)
+	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), INFO, Verbose)
 }
 func Warnf(form string, vars ...interface{}) {
-	Logger.Log(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), WARN, Verbose)
+	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), WARN, Verbose)
 }
 func Fatalf(form string, vars ...interface{}) {
-	Logger.Log(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), FATAL, Verbose)
+	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), FATAL, Verbose)
 }

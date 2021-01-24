@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	Logger = &test.Logger{}
+	Logger = []LoggerInterface{&test.Logger{}}
 }
 
 func TestInfoOutput(t *testing.T) {
