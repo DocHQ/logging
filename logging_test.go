@@ -2,7 +2,13 @@ package logging
 
 import (
 	"testing"
+
+	"github.com/DocHQ/logging/test"
 )
+
+func init() {
+	Logger = &test.Logger{}
+}
 
 func TestInfoOutput(t *testing.T) {
 	Info("Testing info")
@@ -19,7 +25,7 @@ func TestErrorOutput(t *testing.T) {
 
 // Must run last as this os.Exits(1)
 func TestFatalOutput(t *testing.T) {
-	FatalNoExit("Testing fatal")
+	Fatal("Testing fatal")
 }
 
 // Testing veradics
@@ -38,33 +44,33 @@ func TestErrorVOutput(t *testing.T) {
 
 // Must run last as this os.Exits(1)
 func TestFatalVOutput(t *testing.T) {
-	FatalNoExit("Testing fatal")
+	Fatal("Testing fatal")
 }
 
 // Testing debug
 
 func TestDebugInfoOutput(t *testing.T) {
-	DebugEnabled = true
+	Verbose = true
 	Info("Testing info")
 }
 
 func TestDebugDebugOutput(t *testing.T) {
-	DebugEnabled = true
+	Verbose = true
 	Debug("Testing info")
 }
 func TestDebugWarnOutput(t *testing.T) {
-	DebugEnabled = true
+	Verbose = true
 	Warn("Testing warn")
 }
 func TestDebugErrorOutput(t *testing.T) {
-	DebugEnabled = true
+	Verbose = true
 	Error("Testing error")
 }
 
 // Must run last as this os.Exits(1)
 func TestDebugFatalOutput(t *testing.T) {
-	DebugEnabled = true
-	FatalNoExit("Testing fatal")
+	Verbose = true
+	Fatal("Testing fatal")
 }
 
 func TestStruct(t *testing.T) {
@@ -72,9 +78,4 @@ func TestStruct(t *testing.T) {
 		Hello string
 		World string
 	}{"Hello", "World"})
-}
-
-func TestInfoOutputWithTime(t *testing.T) {
-	TimeEnabled = true
-	Info("Testing info")
 }
