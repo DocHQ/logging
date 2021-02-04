@@ -38,13 +38,13 @@ type Logger struct {
 	IgnoreLevelBelow uint32
 }
 
-func (t Logger) Log(i interface{}, fields map[string]interface{}, level uint32, verbose bool) {
+func (t Logger) Log(i interface{}, data interface{}, level uint32, verbose bool) {
 	localHub := sentry.CurrentHub().Clone()
 
 	localHub.ConfigureScope(func(scope *sentry.Scope) {
 		// If extra fields were provided, use them
-		if len(fields) != 0 {
-			for k, v := range fields {
+		if len(data.(map[string]interface{})) != 0 {
+			for k, v := range data.(map[string]interface{}) {
 				scope.SetExtra(k, v)
 			}
 		}

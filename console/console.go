@@ -76,7 +76,7 @@ func init() {
 
 type Logger struct{}
 
-func (t Logger) Log(i interface{}, fields map[string]interface{}, level uint32, verbose bool) {
+func (t Logger) Log(i interface{}, fields interface{}, level uint32, verbose bool) {
 	// Get the current time
 	timestring := time.Now().Format("Mon Jan _2 15:04:05")
 

@@ -9,6 +9,7 @@ import (
 var (
 	Verbose bool              = false
 	Logger  []LoggerInterface = []LoggerInterface{&console.Logger{}}
+	Log                       = &LogInstance{}
 )
 
 type Level uint32
@@ -36,10 +37,14 @@ const (
 // for the output
 type LoggerInterface interface {
 	// Log(data, key=value fields, log level, Verbose (Debug))
-	Log(interface{}, map[string]interface{}, uint32, bool)
+	Log(interface{}, interface{}, uint32, bool)
 }
 
-func LogRunner(i interface{}, m map[string]interface{}, u uint32, b bool) {
+type LogInstance struct {
+	Loggers []LoggerInterface
+}
+
+func (l *LogInstance) LogRunner(i interface{}, m interface{}, u uint32, b bool) {
 	if len(Logger) == 1 {
 		Logger[0].Log(i, m, u, b)
 	} else {
@@ -51,33 +56,49 @@ func LogRunner(i interface{}, m map[string]interface{}, u uint32, b bool) {
 
 // The useual defines
 func Error(err interface{}) {
-	LogRunner(err, make(map[string]interface{}, 0), ERROR, Verbose)
+	Log.LogRunner(err, make(map[string]interface{}, 0), ERROR, Verbose)
 }
 func Debug(debug interface{}) {
-	LogRunner(debug, make(map[string]interface{}, 0), DEBUG, Verbose)
+	Log.LogRunner(debug, make(map[string]interface{}, 0), DEBUG, Verbose)
 }
 func Info(info interface{}) {
-	LogRunner(info, make(map[string]interface{}, 0), INFO, Verbose)
+	Log.LogRunner(info, make(map[string]interface{}, 0), INFO, Verbose)
 }
 func Warn(warn interface{}) {
-	LogRunner(warn, make(map[string]interface{}, 0), WARN, Verbose)
+	Log.LogRunner(warn, make(map[string]interface{}, 0), WARN, Verbose)
 }
 func Fatal(fatal interface{}) {
-	LogRunner(fatal, make(map[string]interface{}, 0), FATAL, Verbose)
+	Log.LogRunner(fatal, make(map[string]interface{}, 0), FATAL, Verbose)
 }
 
 func Errorf(form string, vars ...interface{}) {
-	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), ERROR, Verbose)
+	Log.LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), ERROR, Verbose)
 }
 func Debugf(form string, vars ...interface{}) {
-	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), DEBUG, Verbose)
+	Log.LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), DEBUG, Verbose)
 }
 func Infof(form string, vars ...interface{}) {
-	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), INFO, Verbose)
+	Log.LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), INFO, Verbose)
 }
 func Warnf(form string, vars ...interface{}) {
-	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), WARN, Verbose)
+	Log.LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), WARN, Verbose)
 }
 func Fatalf(form string, vars ...interface{}) {
-	LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), FATAL, Verbose)
+	Log.LogRunner(fmt.Sprintf(form, vars...), make(map[string]interface{}, 0), FATAL, Verbose)
+}
+
+func ErrorWithData(err interface{}, data interface{}) {
+	Log.LogRunner(err, data, ERROR, Verbose)
+}
+func DebugWithData(debug interface{}, data interface{}) {
+	Log.LogRunner(debug, data, DEBUG, Verbose)
+}
+func InfoWithData(info interface{}, data interface{}) {
+	Log.LogRunner(info, data, INFO, Verbose)
+}
+func WarnWithData(warn interface{}, data interface{}) {
+	Log.LogRunner(warn, data, WARN, Verbose)
+}
+func FatalWithData(fatal interface{}, data interface{}) {
+	Log.LogRunner(fatal, data, FATAL, Verbose)
 }

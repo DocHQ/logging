@@ -6,6 +6,10 @@ import (
 	"github.com/DocHQ/logging/test"
 )
 
+var testData = map[string]interface{}{
+	"hello": "World",
+}
+
 func init() {
 	Logger = []LoggerInterface{&test.Logger{}}
 }
@@ -22,8 +26,6 @@ func TestWarnOutput(t *testing.T) {
 func TestErrorOutput(t *testing.T) {
 	Error("Testing error")
 }
-
-// Must run last as this os.Exits(1)
 func TestFatalOutput(t *testing.T) {
 	Fatal("Testing fatal")
 }
@@ -41,8 +43,6 @@ func TestWarnVOutput(t *testing.T) {
 func TestErrorVOutput(t *testing.T) {
 	Errorf("%+v", "Testing error")
 }
-
-// Must run last as this os.Exits(1)
 func TestFatalVOutput(t *testing.T) {
 	Fatal("Testing fatal")
 }
@@ -66,11 +66,26 @@ func TestDebugErrorOutput(t *testing.T) {
 	Verbose = true
 	Error("Testing error")
 }
-
-// Must run last as this os.Exits(1)
 func TestDebugFatalOutput(t *testing.T) {
 	Verbose = true
 	Fatal("Testing fatal")
+}
+
+//Testing data
+func TestInfoDataOutput(t *testing.T) {
+	InfoWithData("Testing info", testData)
+}
+func TestDebugDataOutput(t *testing.T) {
+	DebugWithData("Testing info", testData)
+}
+func TestWarnDataOutput(t *testing.T) {
+	WarnWithData("Testing warn", testData)
+}
+func TestErrorDataOutput(t *testing.T) {
+	ErrorWithData("Testing error", testData)
+}
+func TestFatalDataOutput(t *testing.T) {
+	FatalWithData("Testing fatal", testData)
 }
 
 func TestStruct(t *testing.T) {
