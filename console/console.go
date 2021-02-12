@@ -97,6 +97,11 @@ func (t Logger) Log(i interface{}, fields interface{}, level uint32, verbose boo
 			errLog.Printf("%s [%s] [%s#%d] %s\n", timestring, levelToName(level), details.Name(), line, i)
 		}
 	} else {
+		// If debug, skip
+		if level == 0 {
+			return
+		}
+
 		if level <= 2 {
 			outLog.Printf("[%s] %s\n", levelToName(level), i)
 		} else {
