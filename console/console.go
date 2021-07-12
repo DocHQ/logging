@@ -88,13 +88,12 @@ func (t Logger) Log(i interface{}, fields interface{}, level uint32, verbose boo
 	// Check the current debug status
 	if verbose {
 		// Get the runtime caller
-		pc, line, _, _ := runtime.Caller(3)
-		details := runtime.FuncForPC(pc)
+		_, file, line, _ := runtime.Caller(3)
 
 		if level <= 2 {
-			outLog.Printf("%s [%s] [%s#%d] %s\n", timestring, levelToName(level), details.Name(), line, i)
+			outLog.Printf("%s [%s] [%s#%d] %s\n", timestring, levelToName(level), file, line, i)
 		} else {
-			errLog.Printf("%s [%s] [%s#%d] %s\n", timestring, levelToName(level), details.Name(), line, i)
+			errLog.Printf("%s [%s] [%s#%d] %s\n", timestring, levelToName(level), file, line, i)
 		}
 	} else {
 		// If debug, skip
